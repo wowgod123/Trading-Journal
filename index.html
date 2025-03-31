@@ -303,14 +303,16 @@
         <label for="optionFuture">Option/Future:</label>  
         <select id="optionFuture">  
             <option value="" disabled selected>Choose Option/Future</option>  
-            <option value="Option">Option</option>  
-            <option value="Future">Future</option>  
+            <option value="Future- Buy">Future- Buy</option>
+            <option value="Future- Short">Future- Short</option>
+            <option value="Option- CE">Option- CE</option>
+            <option value="Option- PE">Option- PE</option>
         </select>  
         <div id="optionFields" style="display: none;">  
             <label id="expiryLabel" for="expiryDate">Expiry Date:</label>  
             <input type="date" id="expiryDate">  
             <label id="strikeLabel" for="strikePrice">Strike Price:</label>  
-            <input type="number" id="strikePrice">  
+            <input type="number" id="strikePrice" step="1">  
             <label id="expiryMonthLabel" for="expiryMonth">Expiry Month:</label>  
             <select id="expiryMonth">  
                 <option value="" disabled selected>Choose Month</option>  
@@ -329,13 +331,13 @@
             </select>  
         </div>  
         <label for="buyPrice">Buy Price:</label>  
-        <input type="number" id="buyPrice">  
+        <input type="number" id="buyPrice" step="0.01">  
         <label for="sellPrice">Sell Price:</label>  
-        <input type="number" id="sellPrice">  
+        <input type="number" id="sellPrice" step="0.01">  
         <label for="stopLoss">Stop Loss:</label>  
-        <input type="number" id="stopLoss">  
+        <input type="number" id="stopLoss" step="0.01">  
         <label for="targetPrice">Target Price:</label>  
-        <input type="number" id="targetPrice">  
+        <input type="number" id="targetPrice" step="0.01">  
         <label for="reasonToBuy">Reason to Buy:</label>  
         <input type="text" id="reasonToBuy" placeholder="Enter reason to buy">  
         <label for="reasonToSell">Reason to Sell:</label>  
@@ -477,15 +479,15 @@
             targetPriceInput.addEventListener('input', updateRRR);  
 
             optionFutureInput.addEventListener('change', () => {  
-                optionFields.style.display = optionFutureInput.value === 'Option' || optionFutureInput.value === 'Future' ? 'block' : 'none';  
-                if(optionFutureInput.value === 'Option') {  
+                optionFields.style.display = optionFutureInput.value.includes('Option') ? 'block' : 'none';  
+                if(optionFutureInput.value.includes('Option')) {  
                     expiryLabel.style.display = 'block';  
                     expiryDateInput.style.display = 'block';  
                     strikeLabel.style.display = 'block';  
                     strikePriceInput.style.display = 'block';  
                     expiryMonthLabel.style.display = 'none';  
                     expiryMonthInput.style.display = 'none';  
-                } else if(optionFutureInput.value === 'Future') {  
+                } else if(optionFutureInput.value.includes('Future')) {  
                     expiryLabel.style.display = 'none';  
                     expiryDateInput.style.display = 'none';  
                     strikeLabel.style.display = 'none';  
@@ -522,7 +524,7 @@
                 
                 // Add event listeners to edit buttons
                 document.querySelectorAll('.editTrade').forEach(button => {
-                    button.addEventListener('click', function() {
+                                    button.addEventListener('click', function() {
                         const index = this.getAttribute('data-index');
                         editTrade(index);
                     });
@@ -548,10 +550,10 @@
                 dateInput.value = trade.date;
                 notesInput.value = trade.notes;
                 
-                if (trade.optionFuture === 'Option') {
+                if (trade.optionFuture.includes('Option')) {
                     expiryDateInput.value = trade.expiryDate || '';
                     strikePriceInput.value = trade.strikePrice || '';
-                } else if (trade.optionFuture === 'Future') {
+                } else if (trade.optionFuture.includes('Future')) {
                     expiryMonthInput.value = trade.expiryMonth || '';
                 }
                 
@@ -604,10 +606,10 @@
                 reasonToSellInput.value = '';  
                 dateInput.value = '';  
                 notesInput.value = '';  
-                if(optionFutureInput.value === 'Option'){  
+                if(optionFutureInput.value.includes('Option')){  
                     expiryDateInput.value = '';  
                     strikePriceInput.value = '';  
-                }else if (optionFutureInput.value === 'Future'){  
+                }else if (optionFutureInput.value.includes('Future')){  
                     expiryMonthInput.value = '';  
                 }  
                 optionFields.style.display = 'none';  
@@ -641,10 +643,10 @@
                     notes: notesInput.value,  
                     profitLoss: profitLoss  
                 };  
-                if (optionFutureInput.value === 'Option') {  
+                if (optionFutureInput.value.includes('Option')) {  
                     newTrade.expiryDate = expiryDateInput.value;  
                     newTrade.strikePrice = strikePriceInput.value;  
-                } else if (optionFutureInput.value === 'Future') {  
+                } else if (optionFutureInput.value.includes('Future')) {  
                     newTrade.expiryMonth = expiryMonthInput.value;  
                 }  
 
@@ -703,10 +705,10 @@
                     profitLoss: profitLoss  
                 };  
                 
-                if (optionFutureInput.value === 'Option') {  
+                if (optionFutureInput.value.includes('Option')) {  
                     updatedTrade.expiryDate = expiryDateInput.value;  
                     updatedTrade.strikePrice = strikePriceInput.value;  
-                } else if (optionFutureInput.value === 'Future') {  
+                } else if (optionFutureInput.value.includes('Future')) {  
                     updatedTrade.expiryMonth = expiryMonthInput.value;  
                 }  
 
