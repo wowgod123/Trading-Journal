@@ -15,61 +15,281 @@
             transition: background-color 0.3s ease, color 0.3s ease;  
             background: linear-gradient(135deg, #e0f7fa, #e8f5e9, #fce4ec, #ede7f6, #fffde7);  
             color: #212121;  
-        }  #journalForm, #tradeTableContainer {  
-        max-width: 800px;  
-        margin: 20px auto;  
-    }  
-
-    table {  
-        width: 100%;  
-        border-collapse: collapse;  
-    }  
-
-    th, td {  
-        border: 1px solid #ddd;  
-        padding: 8px;  
-        text-align: left;  
-    }  
-
-    th {  
-        background-color: #f2f2f2;  
-    }  
-
-    tr:nth-child(even) {  
-        background-color: #f9f9f9;  
-    }  
-
-    tr:hover {  
-        background-color: #e0e0e0;  
-    }  
-
-    input, select, textarea, button {  
-        width: calc(100% - 20px);  
-        padding: 10px;  
-        margin-bottom: 10px;  
-        border: 1px solid #ccc;  
-        border-radius: 4px;  
-        box-sizing: border-box;  
-    }  
-
-    button {  
-        background-color: #03A9F4;  
-        color: white;  
-        cursor: pointer;  
-    }  
-
-    button:hover {  
-        background-color: #0288D1;  
-    }  
-
-    @media (max-width: 600px) {  
-        table {  
-            display: block;  
-            overflow-x: auto;  
-            white-space: nowrap;  
+            animation: gradientShift 15s ease infinite;
+            background-size: 300% 300%;
         }  
-    }  
-</style>
+
+        @keyframes gradientShift {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        #journalForm, #tradeTableContainer {  
+            max-width: 800px;  
+            margin: 20px auto;  
+            animation: fadeIn 0.8s ease-out;
+        }  
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            position: relative;
+            display: inline-block;
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(3, 169, 244, 0.5); }
+            to { text-shadow: 0 0 15px rgba(3, 169, 244, 0.8); }
+        }
+
+        table {  
+            width: 100%;  
+            border-collapse: collapse;  
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateZ(0);
+            transition: all 0.3s ease;
+        }  
+
+        table:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        th, td {  
+            border: 1px solid #ddd;  
+            padding: 8px;  
+            text-align: left;  
+            transition: all 0.2s ease;
+        }  
+
+        th {  
+            background-color: #f2f2f2;  
+            position: sticky;
+            top: 0;
+            animation: thSlideIn 0.5s ease-out;
+        }
+
+        @keyframes thSlideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        tr {  
+            transition: all 0.3s ease;
+            animation: rowFadeIn 0.6s ease-out;
+        }
+
+        @keyframes rowFadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        tr:nth-child(even) {  
+            background-color: #f9f9f9;  
+        }  
+
+        tr:hover {  
+            background-color: #e0e0e0;  
+            transform: scale(1.01);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }  
+
+        input, select, textarea, button {  
+            width: calc(100% - 20px);  
+            padding: 10px;  
+            margin-bottom: 10px;  
+            border: 1px solid #ccc;  
+            border-radius: 4px;  
+            box-sizing: border-box;  
+            transition: all 0.3s ease;
+        }  
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #03A9F4;
+            box-shadow: 0 0 8px rgba(3, 169, 244, 0.3);
+            transform: scale(1.01);
+        }
+
+        button {  
+            background-color: #03A9F4;  
+            color: white;  
+            cursor: pointer;  
+            transition: all 0.3s ease, transform 0.1s ease;
+            position: relative;
+            overflow: hidden;
+        }  
+
+        button:hover {  
+            background-color: #0288D1;  
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }  
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        button:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        #risk, #reward, #realTimeRRR {
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        #risk {
+            color: #f44336;
+            animation: pulseRed 2s infinite;
+        }
+
+        #reward {
+            color: #4CAF50;
+            animation: pulseGreen 2s infinite;
+        }
+
+        #realTimeRRR {
+            color: #FF9800;
+            animation: pulseOrange 2s infinite;
+        }
+
+        @keyframes pulseRed {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulseGreen {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulseOrange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .editTrade {
+            background-color: #FF9800 !important;
+        }
+
+        .editTrade:hover {
+            background-color: #F57C00 !important;
+        }
+
+        #tradeSummary p {
+            font-size: 1.1em;
+            font-weight: bold;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #totalPL {
+            color: #4CAF50;
+            animation: bounce 0.5s;
+        }
+
+        #winRate {
+            color: #2196F3;
+            animation: bounce 0.5s 0.1s;
+        }
+
+        #totalTrades {
+            color: #9C27B0;
+            animation: bounce 0.5s 0.2s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        #optionFields {
+            animation: expand 0.4s ease-out;
+            transform-origin: top;
+            overflow: hidden;
+        }
+
+        @keyframes expand {
+            from { transform: scaleY(0); opacity: 0; }
+            to { transform: scaleY(1); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {  
+            table {  
+                display: block;  
+                overflow-x: auto;  
+                white-space: nowrap;  
+            }  
+        }
+
+        /* Profit/Loss animation */
+        td:nth-child(13) {
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+
+        td:nth-child(13):not(:empty) {
+            animation: fadeInColor 1s ease-out;
+        }
+
+        @keyframes fadeInColor {
+            0% { background-color: transparent; }
+            50% { background-color: rgba(76, 175, 80, 0.3); }
+            100% { background-color: transparent; }
+        }
+
+        /* Floating particles for background */
+        .particle {
+            position: fixed;
+            background: rgba(3, 169, 244, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            to { transform: translateY(-100vh) rotate(360deg); }
+        }
+    </style>
 
 </head>  
 <body>  
@@ -163,6 +383,35 @@
     </div>  
     <script>  
         document.addEventListener('DOMContentLoaded', function() {  
+            // Create floating particles
+            function createParticles() {
+                const particles = 20;
+                for (let i = 0; i < particles; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random size between 5px and 20px
+                    const size = Math.random() * 15 + 5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Random position
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.bottom = `-${size}px`;
+                    
+                    // Random animation duration between 10s and 30s
+                    const duration = Math.random() * 20 + 10;
+                    particle.style.animationDuration = `${duration}s`;
+                    
+                    // Random delay
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    document.body.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+
             const body = document.body;  
             const scripSelect = document.getElementById('scrip');  
             const tradeTableBody = document.querySelector('#tradeTable tbody');  
@@ -277,162 +526,4 @@
                         const index = this.getAttribute('data-index');
                         editTrade(index);
                     });
-                });
-                
-                updateSummary(trades);  
-            }  
-
-            function editTrade(index) {
-                editingTradeIndex = index;
-                const trade = trades[index];
-                
-                // Fill the form with trade data
-                tradeNumberInput.value = trade.tradeNumber;
-                scripInput.value = trade.scrip;
-                optionFutureInput.value = trade.optionFuture;
-                buyPriceInput.value = trade.buyPrice;
-                sellPriceInput.value = trade.sellPrice;
-                stopLossInput.value = trade.stopLoss;
-                targetPriceInput.value = trade.targetPrice;
-                reasonToBuyInput.value = trade.reasonToBuy;
-                reasonToSellInput.value = trade.reasonToSell;
-                dateInput.value = trade.date;
-                notesInput.value = trade.notes;
-                
-                if (trade.optionFuture === 'Option') {
-                    expiryDateInput.value = trade.expiryDate || '';
-                    strikePriceInput.value = trade.strikePrice || '';
-                } else if (trade.optionFuture === 'Future') {
-                    expiryMonthInput.value = trade.expiryMonth || '';
-                }
-                
-                // Trigger the option/future change to show correct fields
-                optionFutureInput.dispatchEvent(new Event('change'));
-                
-                // Show save button and hide add button
-                addTradeButton.style.display = 'none';
-                saveChangesButton.style.display = 'block';
-            }
-
-            function updateSummary(trades) {  
-                let totalPL = 0;  
-                let wins = 0;  
-
-                trades.forEach(trade => {  
-                    totalPL += trade.profitLoss;  
-                    if (trade.profitLoss > 0) wins++;  
-                });  
-
-                const winRate = trades.length > 0 ? ((wins / trades.length) * 100).toFixed(2) + '%' : '0%';  
-
-                totalPLSpan.textContent = totalPL;  
-                winRateSpan.textContent = winRate;  
-                totalTradesSpan.textContent = trades.length;  
-            }  
-
-            function clearForm() {  
-                scripInput.value = '';  
-                optionFutureInput.value = '';  
-                buyPriceInput.value = '';  
-                sellPriceInput.value = '';  
-                stopLossInput.value = '';  
-                targetPriceInput.value = '';  
-                reasonToBuyInput.value = '';  
-                reasonToSellInput.value = '';  
-                dateInput.value = '';  
-                notesInput.value = '';  
-                if(optionFutureInput.value === 'Option'){  
-                    expiryDateInput.value = '';  
-                    strikePriceInput.value = '';  
-                }else if (optionFutureInput.value === 'Future'){  
-                    expiryMonthInput.value = '';  
-                }  
-                optionFields.style.display = 'none';  
-                
-                // Reset edit mode
-                editingTradeIndex = -1;
-                addTradeButton.style.display = 'block';
-                saveChangesButton.style.display = 'none';
-            }  
-
-            addTradeButton.addEventListener('click', () => {  
-                const buyPrice = parseFloat(buyPriceInput.value);  
-                const sellPrice = parseFloat(sellPriceInput.value);  
-                const stopLoss = parseFloat(stopLossInput.value);  
-                const targetPrice = parseFloat(targetPriceInput.value);  
-                const rrr = calculateRRR(buyPrice, stopLoss, targetPrice);  
-                const profitLoss = sellPrice - buyPrice;  
-
-                const newTrade = {  
-                    tradeNumber: trades.length + 1,  
-                    scrip: scripInput.value,  
-                    optionFuture: optionFutureInput.value,  
-                    buyPrice: buyPrice,  
-                    sellPrice: sellPrice,  
-                    stopLoss: stopLoss,  
-                    targetPrice: targetPrice,  
-                    rrr: rrr,  
-                    reasonToBuy: reasonToBuyInput.value,  
-                    reasonToSell: reasonToSellInput.value,  
-                    date: dateInput.value,  
-                    notes: notesInput.value,  
-                    profitLoss: profitLoss  
-                };  
-                if (optionFutureInput.value === 'Option') {  
-                    newTrade.expiryDate = expiryDateInput.value;  
-                    newTrade.strikePrice = strikePriceInput.value;  
-                } else if (optionFutureInput.value === 'Future') {  
-                    newTrade.expiryMonth = expiryMonthInput.value;  
-                }  
-
-                trades.push(newTrade);  
-                localStorage.setItem('trades', JSON.stringify(trades));
-                renderTrades(trades);  
-                clearForm();  
-            });  
-            
-            saveChangesButton.addEventListener('click', () => {
-                if (editingTradeIndex === -1) return;
-                
-                const buyPrice = parseFloat(buyPriceInput.value);  
-                const sellPrice = parseFloat(sellPriceInput.value);  
-                const stopLoss = parseFloat(stopLossInput.value);  
-                const targetPrice = parseFloat(targetPriceInput.value);  
-                const rrr = calculateRRR(buyPrice, stopLoss, targetPrice);  
-                const profitLoss = sellPrice - buyPrice;  
-
-                const updatedTrade = {  
-                    tradeNumber: trades[editingTradeIndex].tradeNumber, // Keep original trade number
-                    scrip: scripInput.value,  
-                    optionFuture: optionFutureInput.value,  
-                    buyPrice: buyPrice,  
-                    sellPrice: sellPrice,  
-                    stopLoss: stopLoss,  
-                    targetPrice: targetPrice,  
-                    rrr: rrr,  
-                    reasonToBuy: reasonToBuyInput.value,  
-                    reasonToSell: reasonToSellInput.value,  
-                    date: dateInput.value,  
-                    notes: notesInput.value,  
-                    profitLoss: profitLoss  
-                };  
-                
-                if (optionFutureInput.value === 'Option') {  
-                    updatedTrade.expiryDate = expiryDateInput.value;  
-                    updatedTrade.strikePrice = strikePriceInput.value;  
-                } else if (optionFutureInput.value === 'Future') {  
-                    updatedTrade.expiryMonth = expiryMonthInput.value;  
-                }  
-
-                trades[editingTradeIndex] = updatedTrade;  
-                localStorage.setItem('trades', JSON.stringify(trades));
-                renderTrades(trades);  
-                clearForm();  
-            });
-        });  
-    </script>
-</body>  
-</html>
-
-
-l
+         
